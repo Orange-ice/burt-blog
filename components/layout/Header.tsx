@@ -1,6 +1,6 @@
 import styles from './Header.module.css';
 import Link from 'next/link';
-import initLogo from '../../public/logo.png';
+import initLogo from '../../public/avatar.webp';
 import Image from 'next/image';
 import {IconGithub, IconSun, IconWechatpay} from '@arco-design/web-react/icon';
 import React from 'react';
