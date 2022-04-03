@@ -1,3 +1,41 @@
 .container {
-  border: solid 1px red;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.95);
+  width: 100%;
+  position: fixed;
+  transition: box-shadow 0.3s ease-in-out;
 }
+
+.headerScrolled {
+  box-shadow: rgb(220 220 220) 0px 1px 5px;
+}
+
+.logo {
+  display: flex;
+  align-content: center;
+  margin: 6px 0 6px 20px;
+}
+
+.image {border-radius: 50%;}
+
+.title {line-height: 38px;margin-left: 16px;font-size: 18px;font-family: "Lato", sans-serif}
+
+.nav {
+  line-height: 50px;
+}
+
+.navList {
+  display: flex;
+}
+
+.navList li {
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.links {cursor: pointer;}
+
+.links:hover {color: #ff4d4d;}
