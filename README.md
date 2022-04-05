@@ -1,34 +1,68 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## 启动数据库 （PostgreSQL）
 
-## Getting Started
+### 创建数据库目录
 
-First, run the development server:
+在项目里创建 blog-data 目录，`.gitignore` 文件里添加 /blog-data/。
+
+### 启动 PostgreSQL
+
+**创建 docker 容器**
 
 ```bash
-npm run dev
-# or
-yarn dev
+docker run -v $(pwd)/blog-data:/var/lib/postgresql/data -p 5432:5432 --name=postgres-blog -e POSTGRES_USER=blog -e POSTGRES_PASSWORD=123456 -d postgres
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**创建数据库**
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```sql
+CREATE
+DATABASE blog_development ENCODING 'UTF8' LC_COLLATE 'en_US.utf8' LC_CTYPE 'en_US.utf8';
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## 安装 Prisma
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+```bash
+pnpm add -D prisma
 
-## Learn More
+# 可运行 prisma，查看可用指令
+pnpm exec prisma
 
-To learn more about Next.js, take a look at the following resources:
+# 创建 Prisma Schema 文件模板 来设置 Prisma（会生成 prisma/schema.prisma 和 .env 两个文件）
+pnpm exec prisma init
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 在schema.prisma 文件中设置数据库
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```prisma
+// example
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  username  String   @unique @db.VarChar(16)
+  password  String   @db.VarChar(256)
+  avatar    String?  @db.VarChar(256)
+}
+```
 
-## Deploy on Vercel
+### 将数据模型映射到数据库模型
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+# 在运行 prisma migrate dev 之后，会运行 `generate` ，该命令依赖于 @prisma/client，故先安装好依赖。
+pnpm add -D @prisma/client
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+pnpm exec prisma migrate dev --name init
+```
+
+> 这条命令会做两件事：
+> 1.创建迁移文件
+> 2.对数据库运行迁移文件
+
+```ts
+// prisma generate 会生成 Prisma Client，然后就可以在代码里通过 Prisma Client 调用数据库了。
+import {PrismaClient} from '@prisma/client'
+
+const prisma = new PrismaClient()
+```
+
+
