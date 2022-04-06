@@ -4,12 +4,14 @@ specifiers:
   '@arco-design/web-react': ^2.31.2
   '@prisma/client': ^3.11.1
   '@types/node': 17.0.23
+  '@types/nodemailer': ^6.4.4
   '@types/react': 17.0.43
   '@types/react-dom': 17.0.14
   eslint: 8.12.0
   eslint-config-next: 12.1.4
   iron-session: ^6.1.2
   next: 12.1.4
+  nodemailer: ^6.7.3
   prisma: ^3.11.1
   react: 18.0.0
   react-dom: 18.0.0
@@ -17,14 +19,16 @@ specifiers:
 
 dependencies:
   '@arco-design/web-react': 2.31.2_c13207e15fed56fc7b9b70ab319ad0ff
+  '@prisma/client': 3.11.1_prisma@3.11.1
   iron-session: 6.1.2_next@12.1.4
   next: 12.1.4_react-dom@18.0.0+react@18.0.0
+  nodemailer: 6.7.3
   react: 18.0.0
   react-dom: 18.0.0_react@18.0.0
 
 devDependencies:
-  '@prisma/client': 3.11.1_prisma@3.11.1
   '@types/node': 17.0.23
+  '@types/nodemailer': 6.4.4
   '@types/react': 17.0.43
   '@types/react-dom': 17.0.14
   eslint: 8.12.0
@@ -299,11 +303,11 @@ packages:
     dependencies:
       '@prisma/engines-version': 3.11.1-1.1a2506facaf1a4727b7c26850735e88ec779dee9
       prisma: 3.11.1
-    dev: true
+    dev: false
 
   /@prisma/engines-version/3.11.1-1.1a2506facaf1a4727b7c26850735e88ec779dee9:
     resolution: {integrity: sha512-HkcsDniA4iNb/gi0iuyOJNAM7nD/LwQ0uJm15v360O5dee3TM4lWdSQiTYBMK6FF68ACUItmzSur7oYuUZ2zkQ==}
-    dev: true
+    dev: false
 
   /@prisma/engines/3.11.1-1.1a2506facaf1a4727b7c26850735e88ec779dee9:
     resolution: {integrity: sha512-MILbsGnvmnhCbFGa2/iSnsyGyazU3afzD7ldjCIeLIGKkNBMSZgA2IvpYsAXl+6qFHKGrS3B2otKfV31dwMSQw==}
@@ -362,6 +366,12 @@ packages:
 
   /@types/node/17.0.23:
     resolution: {integrity: sha512-UxDxWn7dl97rKVeVS61vErvw086aCYhDLyvRQZ5Rk65rZKepaFdm53GeqXaKBuOhED4e9uWq34IC3TdSdJJ2Gw==}
+
+  /@types/nodemailer/6.4.4:
+    resolution: {integrity: sha512-Ksw4t7iliXeYGvIQcSIgWQ5BLuC/mljIEbjf615svhZL10PE9t+ei8O9gDaD3FPCasUJn9KTLwz2JFJyiiyuqw==}
+    dependencies:
+      '@types/node': 17.0.23
+    dev: true
 
   /@types/prop-types/15.7.4:
     resolution: {integrity: sha512-rZ5drC/jWjrArrS8BR6SIr4cWpW09RNTYt9AMZo3Jwwif+iacXAqgVjm0B0Bv/S1jhDXKHqRVNCbACkJ89RAnQ==}
@@ -1551,6 +1561,11 @@ packages:
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
+    dev: false
+
+  /nodemailer/6.7.3:
+    resolution: {integrity: sha512-KUdDsspqx89sD4UUyUKzdlUOper3hRkDVkrKh/89G+d9WKsU5ox51NWS4tB1XR5dPUdR4SP0E3molyEfOvSa3g==}
+    engines: {node: '>=6.0.0'}
     dev: false
 
   /number-precision/1.5.2:

@@ -4,10 +4,10 @@ import {PrismaClient} from '@prisma/client';
 const prisma = new PrismaClient();
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const {username, password, loginMethod} = req.body;
+  const {email, password, loginMethod} = req.body;
   const user = await prisma.user.create({
     data: {
-      username,
+      email,
       password,
     },
   });

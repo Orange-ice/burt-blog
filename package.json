@@ -10,14 +10,16 @@
   },
   "dependencies": {
     "@arco-design/web-react": "^2.31.2",
+    "@prisma/client": "^3.11.1",
     "iron-session": "^6.1.2",
     "next": "12.1.4",
+    "nodemailer": "^6.7.3",
     "react": "18.0.0",
-    "react-dom": "18.0.0",
-    "@prisma/client": "^3.11.1"
+    "react-dom": "18.0.0"
   },
   "devDependencies": {
     "@types/node": "17.0.23",
+    "@types/nodemailer": "^6.4.4",
     "@types/react": "17.0.43",
     "@types/react-dom": "17.0.14",
     "eslint": "8.12.0",
