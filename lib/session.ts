@@ -1,5 +1,5 @@
-import {withIronSessionApiRoute, withIronSessionSsr} from 'iron-session/next/dist';
-import {NextApiHandler, GetServerSideProps} from 'next';
+import {withIronSessionApiRoute, withIronSessionSsr} from 'iron-session/next';
+import type {NextApiHandler, GetServerSideProps} from 'next';
 import type {IronSessionOptions} from 'iron-session';
 
 const password = '0gyprto1dt7hhe8hyof8pxo522xgghti';
@@ -23,3 +23,9 @@ export const withSessionApi = (handle: NextApiHandler) => {
 export const withSessionSsr = (handle: GetServerSideProps) => {
   return withIronSessionSsr(handle, sessionOptions);
 };
+
+declare module 'iron-session' {
+  interface IronSessionData {
+    user?: { id: number, email: string };
+  }
+}

@@ -1,6 +1,7 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
 import {PrismaClient} from '@prisma/client';
 import {verifyHttpMethod} from '../../../../lib/helper';
+import {withSessionApi} from '../../../../lib/session';
 
 const prisma = new PrismaClient();
 
@@ -13,9 +14,11 @@ interface RequestBody {
   code?: string;
 }
 
-export default async function login(req: NextApiRequest, res: NextApiResponse) {
+export default withSessionApi(login);
+
+async function login(req: NextApiRequest, res: NextApiResponse) {
   if (!verifyHttpMethod(req, res, 'POST')) return;
-  const {email, code, password, loginMethod} = req.body;
+  const {email, loginMethod} = req.body;
 
   const errorMessage = await verifyFields(loginMethod, req.body);
   if (errorMessage) {
@@ -28,8 +31,8 @@ export default async function login(req: NextApiRequest, res: NextApiResponse) {
     create: {email},
     update: {}
   });
-
-  // TODO: session 处理
+  req.session.user = user;
+  res.json(user);
 
 }
 
@@ -39,22 +42,24 @@ export default async function login(req: NextApiRequest, res: NextApiResponse) {
 async function verifyFields(loginMethod: LoginMethod, requestData: RequestBody) {
   const {email, code, password} = requestData;
   let errorMessage = '';
+  if (!email) {
+    return 'email is required';
+  }
   switch (loginMethod) {
     case 'CODE':
       if (!code) {
-        errorMessage = 'Code is required';
-        return;
+        return 'Code is required';
       }
       errorMessage = await verifyCode(code, email);
       break;
     case 'PASSWORD':
       if (!password) {
-        errorMessage = 'Password is required';
-        return;
+        return 'Password is required';
       }
       errorMessage = await verifyPassword(password, email);
       break;
     default:
+      errorMessage = 'Login method is required';
       break;
   }
   return errorMessage;
@@ -64,7 +69,7 @@ async function verifyFields(loginMethod: LoginMethod, requestData: RequestBody) 
  * 验证 code 的有效性
  * */
 async function verifyCode(code: string, email: string) {
-  const codeInfo = await prisma.code.findUnique({where: {email}});
+  const codeInfo = await prisma.code.findUnique({where: {email: email}});
   if (!codeInfo) {
     return 'Please get the verification code first';
   }
@@ -72,7 +77,7 @@ async function verifyCode(code: string, email: string) {
     return 'Code is Invalid';
   }
   const now = new Date();
-  if (now.getTime() - codeInfo.createdAt.getTime() > 1000 * 60 * 5) {
+  if (now.getTime() - codeInfo.updatedAt.getTime() > 1000 * 60 * 5) {
     return 'Code is Expired';
   }
   return '';
