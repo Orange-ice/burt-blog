@@ -32,6 +32,8 @@ async function login(req: NextApiRequest, res: NextApiResponse) {
     update: {}
   });
   req.session.user = user;
+  // session 赋值后要存储！！！
+  await req.session.save();
   res.json(user);
 
 }
