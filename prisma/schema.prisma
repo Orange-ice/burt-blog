@@ -18,7 +18,7 @@ model User {
   username  String?  @unique @db.VarChar(16)
   password  String?  @db.VarChar(255)
   avatar    String?  @db.VarChar(255)
-  articals  Artical[]
+  articles  Article[]
 }
 
 model Code {
@@ -29,7 +29,7 @@ model Code {
   code      String   @unique @db.VarChar(16)
 }
 
-model Artical {
+model Article {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
