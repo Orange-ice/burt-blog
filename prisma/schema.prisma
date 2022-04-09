@@ -18,6 +18,7 @@ model User {
   username  String?  @unique @db.VarChar(16)
   password  String?  @db.VarChar(255)
   avatar    String?  @db.VarChar(255)
+  articals  Artical[]
 }
 
 model Code {
@@ -26,4 +27,14 @@ model Code {
   updatedAt DateTime @updatedAt
   email     String   @unique @db.VarChar(255)
   code      String   @unique @db.VarChar(16)
+}
+
+model Artical {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String   @db.VarChar(255)
+  content   String   @db.Text
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int
 }
