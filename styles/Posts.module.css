@@ -1,0 +1,30 @@
+.container {
+  /*border: solid 1px red;*/
+}
+
+.title {
+  font-size: 35px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.year {
+  margin-top: 70px;
+}
+
+.year .yearTitle {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.post {
+  display: flex;
+  justify-content: space-between;
+  margin: 18px 0 0 15px;
+  font-size: 1.2em;
+}
+
+.postTitle:hover {
+  color: #ff4d4d;
+  cursor: pointer;
+}
