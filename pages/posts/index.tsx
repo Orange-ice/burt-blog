@@ -1,7 +1,7 @@
 import type {GetServerSideProps, NextPage} from 'next';
-import Layout from '../components/layout/Layout';
-import styles from '../styles/Posts.module.css'; // 文件名小写了竟然也能偶尔起作用！！！
-import {withSessionSsr} from '../lib/session';
+import Layout from '../../components/layout/Layout';
+import styles from '../../styles/Posts.module.css'; // 文件名小写了竟然也能偶尔起作用！！！
+import {withSessionSsr} from '../../lib/session';
 import {PrismaClient} from '@prisma/client';
 
 interface Posts {
