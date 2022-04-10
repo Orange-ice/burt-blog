@@ -61,7 +61,7 @@ const Posts: NextPage<PostsProps> = (props) => {
                 {groupedPosts[year].map((post) => (
                   <li key={post.id} className={styles.post}>
                     <a className={styles.postTitle}>{post.title}</a>
-                    <span className={styles.postContent}>{formatDate(post.createdAt)}</span>
+                    <span className={styles.postCreatedAt}>{formatDate(post.createdAt)}</span>
                   </li>
                 ))}
               </ul>
