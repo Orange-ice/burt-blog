@@ -1,7 +1,6 @@
-import type {GetServerSideProps, NextPage} from 'next';
+import type {GetStaticProps, NextPage} from 'next';
 import Layout from '../../components/layout/Layout';
 import styles from '../../styles/Posts.module.css'; // 文件名小写了竟然也能偶尔起作用！！！
-import {withSessionSsr} from '../../lib/session';
 import {PrismaClient} from '@prisma/client';
 
 interface Posts {
@@ -13,15 +12,11 @@ interface Posts {
 
 interface PostsProps {
   posts: Posts[];
-  user: {
-    id: number;
-    email: string;
-  };
 }
 
 
 const Posts: NextPage<PostsProps> = (props) => {
-  const {posts, user} = props;
+  const {posts} = props;
 
   const groupPostsByYear = (posts: Posts[]) => {
     const groupedPosts = posts.reduce((acc: { [K: string]: Posts[] }, post) => {
@@ -76,20 +71,18 @@ const Posts: NextPage<PostsProps> = (props) => {
 export default Posts;
 
 
-export const getServerSideProps: GetServerSideProps = withSessionSsr(async (ctx) => {
+export const getStaticProps: GetStaticProps = async (ctx) => {
   const prisma = new PrismaClient();
   const article = await prisma.article.findMany({
     select: {id: true, title: true, content: false, createdAt: true},
     orderBy: {createdAt: 'desc'},
   });
-  // const user = ctx.req.session.user;
   return {
     props: {
       posts: article.map(item => ({
         ...item,
         createdAt: item.createdAt.toJSON(),
       })),
-      // user
     },
   };
-});
+};
