@@ -1,16 +1,33 @@
-import {NextPage} from 'next';
+import {GetServerSideProps, NextPage} from 'next';
 import {Button, Input, Form, Message} from '@arco-design/web-react';
 import {useRouter} from 'next/router';
 import {login} from '../../service/login';
+import {withSessionSsr} from '../../lib/session';
+import {useEffect} from 'react';
 
 interface SubmitData {
   email: string;
   password: string;
 }
 
-const Login: NextPage = () => {
+interface User {
+  id: number;
+  email: string;
+}
+
+interface PageProps {
+  user: User | undefined;
+}
+
+const Login: NextPage<PageProps> = (props) => {
   const router = useRouter();
   const [form] = Form.useForm();
+
+  useEffect(() => {
+    if (props.user) {
+      router.push('/admin/backstage');
+    }
+  }, []);
 
   const onSubmit = async (values: SubmitData) => {
     console.log(values);
@@ -49,3 +66,14 @@ const Login: NextPage = () => {
 };
 
 export default Login;
+
+export const getServerSideProps: GetServerSideProps = withSessionSsr(
+  async (context) => {
+    const user = context.req.session?.user;
+    return {
+      props: {
+        user,
+      },
+    };
+  }
+);
