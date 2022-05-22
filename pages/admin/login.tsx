@@ -1,16 +1,22 @@
 import {NextPage} from 'next';
-import {Button, Input, Form} from '@arco-design/web-react';
+import {Button, Input, Form, Message} from '@arco-design/web-react';
+import {useRouter} from 'next/router';
+import {login} from '../../service/login';
 
 interface SubmitData {
-  username: string;
+  email: string;
   password: string;
 }
 
 const Login: NextPage = () => {
+  const router = useRouter();
   const [form] = Form.useForm();
 
-  const onSubmit = (values: SubmitData) => {
+  const onSubmit = async (values: SubmitData) => {
     console.log(values);
+    await login(values);
+    await router.push('/admin/backstage');
+    Message.success('登录成功');
   };
 
   return (
@@ -21,8 +27,13 @@ const Login: NextPage = () => {
       padding: '200px 0',
     }}>
       <h3 style={{marginBottom: 16, fontSize: 24}}>Burt Blog</h3>
-      <Form form={form} onSubmit={onSubmit} style={{width: 600}}>
-        <Form.Item field="username" label="用户名" required>
+      <Form
+        form={form}
+        onSubmit={onSubmit}
+        initialValues={{email: 'cburthuang@gmail.com'}}
+        style={{width: 600}}
+      >
+        <Form.Item field="email" label="用户名" required>
           <Input placeholder="请输入用户名" allowClear/>
         </Form.Item>
         <Form.Item field="password" label="密码" required>
