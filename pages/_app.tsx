@@ -1,6 +1,7 @@
 import '../styles/globals.css';
 import type {AppProps} from 'next/app';
 import Head from 'next/head';
+import '@arco-design/web-react/dist/css/arco.css';
 
 function MyApp({Component, pageProps}: AppProps) {
   return <>
