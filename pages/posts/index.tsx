@@ -2,6 +2,7 @@ import type {GetStaticProps, NextPage} from 'next';
 import Layout from '../../components/layout/Layout';
 import styles from '../../styles/Posts.module.css'; // 文件名小写了竟然也能偶尔起作用！！！
 import {PrismaClient} from '@prisma/client';
+import Link from 'next/link';
 
 interface Posts {
   id: number;
@@ -55,7 +56,9 @@ const Posts: NextPage<PostsProps> = (props) => {
               <ul className={styles.posts}>
                 {groupedPosts[year].map((post) => (
                   <li key={post.id} className={styles.post}>
-                    <a className={styles.postTitle}>{post.title}</a>
+                    <Link href={`/posts/${post.id}`}>
+                      <a className={styles.postTitle}>{post.title}</a>
+                    </Link>
                     <span className={styles.postCreatedAt}>{formatDate(post.createdAt)}</span>
                   </li>
                 ))}
