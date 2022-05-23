@@ -1,0 +1,12 @@
+.wrapper{
+    display: flex;
+    height: 100vh;
+}
+
+.menu{
+    width: 10%;
+}
+
+.main{
+    width: 90%;
+}
