@@ -16,7 +16,7 @@ interface User {
 }
 
 interface PageProps {
-  user: User | undefined;
+  user: User | null;
 }
 
 const Login: NextPage<PageProps> = (props) => {
@@ -69,7 +69,7 @@ export default Login;
 
 export const getServerSideProps: GetServerSideProps = withSessionSsr(
   async (context) => {
-    const user = context.req.session?.user;
+    const user = context.req.session?.user || null;
     return {
       props: {
         user,
